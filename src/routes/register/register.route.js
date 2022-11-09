@@ -1,9 +1,13 @@
 import './register.style.css';
 import {Button, InputText, Password} from "primereact";
-import {useState} from "react";
+import {useEffect, useState} from "react";
 import {User} from "../../context/user.context";
+import {useNavigate} from "react-router-dom";
+import {AuthService} from "../../services/AuthService.service";
 
 const Register = () => {
+    const navigate = useNavigate();
+    const isLoggedIn = AuthService.isLoggedIn();
     const [username, setUsername] = useState("");
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
@@ -11,6 +15,12 @@ const Register = () => {
     const [success, setSuccess] = useState(false);
     const [error, setError] = useState(false);
     const [message, setMessage] = useState("");
+
+    useEffect(() => {
+        if(isLoggedIn){
+            navigate("/dashboard")
+        }
+    });
 
     function handleRegister(e) {
         e.preventDefault();

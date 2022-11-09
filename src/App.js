@@ -10,7 +10,8 @@ import Login from "./routes/login/login.route";
 import Register from "./routes/register/register.route";
 import Dashboard from "./routes/dashboard/dashboard.route";
 import Create from "./routes/create/create.route";
-import Detail from "./routes/detail/detail.route";                                //icons
+import Detail from "./routes/detail/detail.route";
+import Logout from "./routes/logout/logout.route";                                //icons
 
 function App() {
   return (
@@ -20,7 +21,7 @@ function App() {
                   path='/'
                   element={
                       <>
-                          <Header user='Jakub'></Header>
+                          <Header></Header>
                           <Index></Index>
                       </>
                   }
@@ -29,7 +30,7 @@ function App() {
                   path='/dashboard'
                   element={
                       <>
-                          <Header user='Jakub'></Header>
+                          <Header></Header>
                           <Dashboard></Dashboard>
                       </>
                   }
@@ -38,7 +39,7 @@ function App() {
                   path='/create'
                   element={
                       <>
-                          <Header user='Jakub'></Header>
+                          <Header></Header>
                           <Create></Create>
                       </>
                   }
@@ -47,7 +48,7 @@ function App() {
                   path='/detail/:id'
                   element={
                       <>
-                          <Header user='Jakub'></Header>
+                          <Header></Header>
                           <Detail></Detail>
                       </>
                   }
@@ -67,6 +68,15 @@ function App() {
                       <>
                           <Header></Header>
                           <Register></Register>
+                      </>
+                  }
+              />
+              <Route
+                  path='/logout'
+                  element={
+                      <>
+                          <Header></Header>
+                          <Logout></Logout>
                       </>
                   }
               />
