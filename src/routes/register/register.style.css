@@ -1,0 +1,34 @@
+.message {
+    margin-bottom: 35px;
+    font-size: 1.1rem;
+    font-weight: bold;
+    text-align: center;
+    width: 100%;
+}
+
+.errorColor {
+    color: #ef8c8c;
+}
+
+.successColor {
+    color: #928cef;
+}
+
+form {
+    margin: 0 auto;
+    text-align: center;
+    width: 20%;
+}
+
+.p-float-label > label {
+    left: 1.3rem;
+}
+
+.inputWrapper {
+    margin-bottom: 11%;
+    width: 100%;
+}
+
+.formButton {
+    margin-top: 5%;
+}

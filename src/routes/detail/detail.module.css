@@ -1,0 +1,38 @@
+.heading {
+    margin-top: 5%;
+}
+
+.purple {
+    color: #928cef;
+}
+
+.grey {
+    color: #71717A;
+}
+
+.detailContainer {
+    margin: 0 auto;
+    text-align: center;
+    width: 50%;
+}
+
+.detailContainer p {
+    color: #71717A;
+    font-size: 1.1rem;
+    text-align: center;
+    width: 100%;
+}
+
+.detailContainer i {
+    color: #928cef;
+    font-size: 1.5rem;
+}
+
+.buttonColor span {
+    color: white;
+}
+
+.votesContainer p {
+    float: left;
+    width: 50%;
+}

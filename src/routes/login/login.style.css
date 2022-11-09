@@ -1,0 +1,31 @@
+form {
+    margin: 0 auto;
+    text-align: center;
+    width: 20%;
+}
+
+.p-float-label > label {
+    left: 1.3rem;
+}
+
+.inputWrapper {
+    margin-bottom: 11%;
+    width: 100%;
+}
+
+.formButton {
+    margin-top: 5%;
+}
+
+p {
+    color: #71717A;
+    font-size: 12px;
+    text-align: center;
+    width: 100%;
+}
+
+p span {
+    color: #928cef;
+    font-size: 13px;
+    font-weight: bold;
+}

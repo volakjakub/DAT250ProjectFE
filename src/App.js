@@ -1,24 +1,77 @@
-import logo from './logo.svg';
+import {Routes, Route} from 'react-router-dom';
 import './App.css';
+import "primereact/resources/themes/tailwind-light/theme.css";  //theme
+import "primereact/resources/primereact.min.css";                  //core css
+import "primeicons/primeicons.css";
+
+import Header from "./components/header/header.component";
+import Index from "./routes/index/index.route";
+import Login from "./routes/login/login.route";
+import Register from "./routes/register/register.route";
+import Dashboard from "./routes/dashboard/dashboard.route";
+import Create from "./routes/create/create.route";
+import Detail from "./routes/detail/detail.route";                                //icons
 
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+      <div className='App'>
+          <Routes>
+              <Route
+                  path='/'
+                  element={
+                      <>
+                          <Header user='Jakub'></Header>
+                          <Index></Index>
+                      </>
+                  }
+              />
+              <Route
+                  path='/dashboard'
+                  element={
+                      <>
+                          <Header user='Jakub'></Header>
+                          <Dashboard></Dashboard>
+                      </>
+                  }
+              />
+              <Route
+                  path='/create'
+                  element={
+                      <>
+                          <Header user='Jakub'></Header>
+                          <Create></Create>
+                      </>
+                  }
+              />
+              <Route
+                  path='/detail/:id'
+                  element={
+                      <>
+                          <Header user='Jakub'></Header>
+                          <Detail></Detail>
+                      </>
+                  }
+              />
+              <Route
+                  path='/login'
+                  element={
+                    <>
+                        <Header></Header>
+                        <Login></Login>
+                    </>
+                  }
+              />
+              <Route
+                  path='/register'
+                  element={
+                      <>
+                          <Header></Header>
+                          <Register></Register>
+                      </>
+                  }
+              />
+          </Routes>
+      </div>
   );
 }
 
