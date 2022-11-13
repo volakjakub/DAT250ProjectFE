@@ -14,10 +14,10 @@ const Login = () => {
     const [message, setMessage] = useState("");
 
     useEffect(() => {
-        if(isLoggedIn){
+        if(isLoggedIn) {
             navigate("/dashboard")
         }
-    },[]);
+    });
 
     function handleLogin(e) {
         e.preventDefault();
@@ -25,6 +25,7 @@ const Login = () => {
         fetch('http://localhost:8000/login', {
             method: 'POST',
             mode: 'cors',
+            credentials: 'include',
             headers: {
                 'Accept': 'application/json',
                 'Content-Type': 'application/json;charset=UTF-8'

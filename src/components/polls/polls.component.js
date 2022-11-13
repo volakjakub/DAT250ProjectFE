@@ -18,8 +18,12 @@ const Polls = ({ polls, dashboard } : any) => {
                     <div key={poll.id} className='pollRow'>
                         <p className='code'><span>#</span> {poll.code}</p>
                         <p className='question'>{poll.question}</p>
-                        <p className='date'>{poll.date_from}</p>
-                        <p className='date'>{poll.date_to}</p>
+                        {poll.opened &&
+                            <p className='opened'>Opened</p>
+                        }
+                        {!poll.opened &&
+                            <p className='opened'>Closed</p>
+                        }
                         {dashboard &&
                             <p className='visible'>
                                 {poll.status &&

@@ -38,11 +38,12 @@
     width: 35%;
 }
 
-.date {
+.opened {
     padding-top: 14px;
     float: left;
+    font-weight: bold;
     text-align: center;
-    width: 15%;
+    width: 30%;
 }
 
 .visible {
