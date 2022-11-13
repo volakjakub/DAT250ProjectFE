@@ -5,8 +5,8 @@ import {AuthService} from "../../services/AuthService.service";
 
 
 const Header = () => {
-    const isLoggedIn = AuthService.isLoggedIn();
-    if(isLoggedIn) {
+    const user = AuthService.getUser();
+    if(user !== null && user !== undefined) {
         return (
             <header>
                 <div>

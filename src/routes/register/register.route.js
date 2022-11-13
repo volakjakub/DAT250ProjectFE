@@ -20,7 +20,7 @@ const Register = () => {
         if(isLoggedIn){
             navigate("/dashboard")
         }
-    });
+    }, [isLoggedIn, navigate]);
 
     function handleRegister(e) {
         e.preventDefault();

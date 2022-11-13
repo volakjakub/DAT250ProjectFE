@@ -10,9 +10,9 @@ const Logout = () => {
 
     useEffect(() => {
         if(!isLoggedIn){
-            navigate("/")
+            navigate("/");
         }
-    },[]);
+    },[isLoggedIn, navigate]);
 
     function handleLogout(e) {
         e.preventDefault();
@@ -30,7 +30,6 @@ const Logout = () => {
                 return Promise.reject(r);
             })
             .then(() => {
-                AuthService.logout();
                 navigate('/');
             })
             .catch(r => {

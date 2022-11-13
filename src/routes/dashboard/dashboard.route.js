@@ -26,7 +26,7 @@ const Dashboard = () => {
             .catch(r => {
                 setPolls(null);
             });
-    },[]);
+    },[setPolls]);
 
     return (
         <>

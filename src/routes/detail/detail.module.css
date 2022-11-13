@@ -2,6 +2,18 @@
     margin-top: 5%;
 }
 
+.message {
+    margin-bottom: 35px;
+    font-size: 1.1rem;
+    font-weight: bold;
+    text-align: center;
+    width: 100%;
+}
+
+.errorColor {
+    color: #ef8c8c;
+}
+
 .purple {
     color: #928cef;
 }

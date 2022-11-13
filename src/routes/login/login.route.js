@@ -17,7 +17,7 @@ const Login = () => {
         if(isLoggedIn) {
             navigate("/dashboard")
         }
-    });
+    }, [isLoggedIn, navigate]);
 
     function handleLogin(e) {
         e.preventDefault();
