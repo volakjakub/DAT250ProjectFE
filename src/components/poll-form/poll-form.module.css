@@ -1,3 +1,15 @@
+.message {
+    margin-bottom: 35px;
+    font-size: 1.1rem;
+    font-weight: bold;
+    text-align: center;
+    width: 100%;
+}
+
+.errorColor {
+    color: #ef8c8c;
+}
+
 .inputWrapper {
     margin-bottom: 11%;
     width: 100%;

@@ -1,39 +1,76 @@
 import styles from './poll-form.module.css';
-import {Button, Calendar, Checkbox, InputText} from "primereact";
-import {useState} from "react";
+import {Button, Checkbox, InputText} from "primereact";
+import {useEffect, useState} from "react";
+import {useNavigate} from "react-router-dom";
+import {AuthService} from "../../services/AuthService.service";
+import {Poll} from "../../context/poll.context";
 
 const PollForm = () => {
-    const [person, setPerson] = useState(1);
+    const navigate = useNavigate();
+    const isLoggedIn = AuthService.isLoggedIn();
     const [question, setQuestion] = useState("");
-    const [dateFrom, setDateFrom] = useState("");
-    const [dateTo, setDateTo] = useState("");
-    const [code, setCode] = useState("");
+    const [opened, setOpened] = useState(true);
     const [status, setStatus] = useState(false);
+    const [error, setError] = useState(false);
+    const [message, setMessage] = useState("");
+
+    useEffect(() => {
+        if(!isLoggedIn) {
+            navigate("/login")
+        }
+    });
+
+    function handleCreate(e) {
+        e.preventDefault();
+        if(isLoggedIn) {
+            const poll = new Poll(question, opened, status, JSON.parse(AuthService.getUser()).id);
+            fetch('http://localhost:8000/poll', {
+                method: 'POST',
+                mode: 'cors',
+                credentials: 'include',
+                headers: {
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/json;charset=UTF-8'
+                },
+                body: JSON.stringify(poll)
+            })
+                .then(r => {
+                    if(r.ok) return r.json();
+                    return Promise.reject(r);
+                })
+                .then(json => {
+                    navigate('/detail/'+json.id);
+                })
+                .catch(r => {
+                    r.json().then((json : any) => {
+                        setError(true);
+                        setMessage(json.message);
+                    });
+                });
+        }
+    }
 
     return (
-        <form>
-            <span className="p-float-label inputWrapper">
-                <InputText id='QuestionValue' value={question} onChange={(e) => setQuestion(e.target.value)} />
-                <label htmlFor="QuestionValue">Question</label>
-            </span>
-            <span className="p-float-label inputWrapper">
-                <Calendar id="DateFromValue" value={dateFrom} onChange={(e) => setDateFrom(e.target.value)} showTime showSeconds />
-                <label htmlFor="DateFromValue">From</label>
-            </span>
-            <span className="p-float-label inputWrapper">
-                <Calendar id="DateFromValue" value={dateTo} onChange={(e) => setDateTo(e.target.value)} showTime showSeconds />
-                <label htmlFor="DateFromValue">To</label>
-            </span>
-            <span className="p-float-label inputWrapper">
-                <InputText id='CodeValue' value={code} onChange={(e) => setCode(e.target.value)} />
-                <label htmlFor="CodeValue">Code</label>
-            </span>
-            <div className="field-checkbox inputWrapper">
-                <Checkbox id='StatusValue' onChange={e => setStatus(e.target.checked)} checked={status}></Checkbox>
-                <label htmlFor="StatusValue" className="p-checkbox-label" className={styles.checkboxLabel}>Status</label>
-            </div>
-            <Button icon="pi pi-plus" iconPos="center" className="p-button-rounded p-button-outlined p-button-primary formButton" />
-        </form>
+        <>
+            {error &&
+                <p className='message errorColor'>{message}</p>
+            }
+            <form onSubmit={handleCreate}>
+                <span className="p-float-label inputWrapper">
+                    <InputText id='QuestionValue' value={question} onChange={(e) => setQuestion(e.target.value)} />
+                    <label htmlFor="QuestionValue">Question</label>
+                </span>
+                <div className="field-checkbox inputWrapper">
+                    <Checkbox id='OpenedValue' onChange={e => setOpened(e.target.checked)} checked={opened}></Checkbox>
+                    <label htmlFor="OpenedValue" className="p-checkbox-label" className={styles.checkboxLabel}>Opened</label>
+                </div>
+                <div className="field-checkbox inputWrapper">
+                    <Checkbox id='StatusValue' onChange={e => setStatus(e.target.checked)} checked={status}></Checkbox>
+                    <label htmlFor="StatusValue" className="p-checkbox-label" className={styles.checkboxLabel}>Status</label>
+                </div>
+                <Button icon="pi pi-plus" iconPos="center" className="p-button-rounded p-button-outlined p-button-primary formButton" />
+            </form>
+        </>
     );
 };
 
