@@ -3,65 +3,44 @@ import { useParams } from 'react-router';
 import {useEffect, useState} from "react";
 import {Button} from "primereact";
 import {AuthService} from "../../services/AuthService.service";
+import {useNavigate} from "react-router-dom";
+import FetchHelper from "../../helpers/fetch-helper";
 
 const Detail = () => {
-    const { id } = useParams();
+    const { code } = useParams();
+    const navigate = useNavigate();
     const isLoggedIn = AuthService.isLoggedIn();
-    const [poll, setPoll] = useState("{}");
+    const [poll, setPoll] = useState("");
     const [error, setError] = useState(false);
     const [message, setMessage] = useState("");
     const [canVote, setCanVote] = useState(true);
 
-    useEffect(() => {
-        if(isLoggedIn) {
-            fetch('http://localhost:8000/poll/' + id, {
-                method: 'GET',
-                mode: 'cors',
-                credentials: 'include',
-                headers: {
-                    'Accept': 'application/json',
-                    'Content-Type': 'application/json;charset=UTF-8'
-                }
-            })
-                .then(r => {
-                    if (r.ok) return r.json();
-                    return Promise.reject(r);
-                })
-                .then(json => {
-                    if(json.person_id === AuthService.getUser().id) setCanVote(false);
-                    setPoll(json);
-                })
-                .catch(r => {
-                    r.json().then((json: any) => {
-                        setError(true);
-                        setMessage(json.message);
-                    });
-                });
+    function publicPollCallback(status: boolean, body: any) {
+        if(status) {
+            setPoll(body);
         } else {
-            fetch('http://localhost:8000/public/poll/' + id, {
-                method: 'GET',
-                mode: 'cors',
-                credentials: 'include',
-                headers: {
-                    'Accept': 'application/json',
-                    'Content-Type': 'application/json;charset=UTF-8'
-                }
-            })
-                .then(r => {
-                    if (r.ok) return r.json();
-                    return Promise.reject(r);
-                })
-                .then(json => {
-                    setPoll(json);
-                })
-                .catch(r => {
-                    r.json().then((json: any) => {
-                        setError(true);
-                        setMessage(json.message);
-                    });
-                });
+            setError(true);
+            setMessage(body);
         }
-    }, [id, isLoggedIn, setPoll]);
+    }
+
+    function privatePollCallback(status: boolean, body: any) {
+        if(status) {
+            setError(false);
+            setPoll(body);
+            if(body.person_id === AuthService.getUser().id) setCanVote(false);
+        } else {
+            setError(true);
+            setMessage(body);
+        }
+    }
+
+    useEffect(() => {
+        new FetchHelper().doCall('GET', 'public/poll/' + code, null, publicPollCallback, navigate);
+        if(isLoggedIn) {
+            new FetchHelper().doCall('GET', 'poll/' + code, null, privatePollCallback, navigate);
+        }
+    }, []);
 
     return (
         <>

@@ -45,7 +45,7 @@ function App() {
                   }
               />
               <Route
-                  path='/detail/:id'
+                  path='/detail/:code'
                   element={
                       <>
                           <Header></Header>

@@ -1,11 +1,19 @@
 import styles from './code-form.style.css';
 import {Button, InputText} from "primereact";
 import {useState} from "react";
+import {useNavigate} from "react-router-dom";
 
 const CodeForm = () => {
+    const navigate = useNavigate();
     const [code, setCode] = useState("");
+
+    function handleSearch(e) {
+        e.preventDefault();
+        navigate('/detail/' + code);
+    }
+
     return (
-        <form>
+        <form onSubmit={handleSearch}>
             <span className="p-float-label p-input-icon-left">
                 <i className="pi pi-hashtag" />
                 <InputText id='CodeValue' value={code} onChange={(e) => setCode(e.target.value)} />
