@@ -4,6 +4,7 @@ import {useEffect, useState} from "react";
 import {Link, useNavigate} from "react-router-dom";
 import {User} from "../../context/user.context";
 import {AuthService} from "../../services/AuthService.service";
+import FetchHelper from "../../helpers/fetch-helper";
 
 const Login = () => {
     const navigate = useNavigate();
@@ -19,33 +20,20 @@ const Login = () => {
         }
     }, [isLoggedIn, navigate]);
 
+    function loginCallback(status: boolean, body: any) {
+        if(status) {
+            sessionStorage.setItem('User', JSON.stringify(body));
+            navigate('/dashboard');
+        } else {
+            setError(true);
+            setMessage(body);
+        }
+    }
+
     function handleLogin(e) {
         e.preventDefault();
         const user = new User(username, password, null);
-        fetch('http://localhost:8000/login', {
-            method: 'POST',
-            mode: 'cors',
-            credentials: 'include',
-            headers: {
-                'Accept': 'application/json',
-                'Content-Type': 'application/json;charset=UTF-8'
-            },
-            body: JSON.stringify(user)
-        })
-            .then(r => {
-                if(r.ok) return r.json();
-                return Promise.reject(r);
-            })
-            .then(json => {
-                sessionStorage.setItem('User', JSON.stringify(json));
-                navigate('/dashboard');
-            })
-            .catch(r => {
-                r.json().then((json : any) => {
-                    setError(true);
-                    setMessage(json.message);
-                });
-            });
+        new FetchHelper().doCall('POST', 'login', JSON.stringify(user), loginCallback, navigate);
     }
 
     return (

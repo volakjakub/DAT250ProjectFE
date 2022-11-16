@@ -4,6 +4,7 @@ import {useEffect, useState} from "react";
 import {User} from "../../context/user.context";
 import {useNavigate} from "react-router-dom";
 import {AuthService} from "../../services/AuthService.service";
+import FetchHelper from "../../helpers/fetch-helper";
 
 const Register = () => {
     const navigate = useNavigate();
@@ -17,42 +18,31 @@ const Register = () => {
     const [message, setMessage] = useState("");
 
     useEffect(() => {
-        if(isLoggedIn){
+        if(isLoggedIn) {
             navigate("/dashboard")
         }
     }, [isLoggedIn, navigate]);
+
+    function registerCallback(status: boolean, body: any) {
+        if(status) {
+            setError(false);
+            setSuccess(true);
+            setMessage("Registration was successful.");
+            cleanForm();
+        } else {
+            setSuccess(false);
+            setError(true);
+            setMessage(body);
+        }
+    }
 
     function handleRegister(e) {
         e.preventDefault();
         if(password === passwordAgain) {
             const user = new User(username, password, email);
-            fetch('http://localhost:8000/register', {
-                method: 'POST',
-                mode: 'cors',
-                headers: {
-                    'Accept': 'application/json',
-                    'Content-Type': 'application/json;charset=UTF-8'
-                },
-                body: JSON.stringify(user)
-            })
-                .then(r => {
-                    if(r.ok) return r.json();
-                    return Promise.reject(r);
-                })
-                .then(json => {
-                    setError(false);
-                    setSuccess(true);
-                    setMessage("Registration was successful.");
-                    cleanForm();
-                })
-                .catch(r => {
-                    r.json().then((json : any) => {
-                        setSuccess(false);
-                        setError(true);
-                        setMessage(json.message);
-                    });
-                });
+            new FetchHelper().doCall('POST', 'register', JSON.stringify(user), registerCallback, navigate);
         } else {
+            setSuccess(false);
             setError(true);
             setMessage("Passwords aren't same!");
         }

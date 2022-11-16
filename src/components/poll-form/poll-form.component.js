@@ -4,6 +4,7 @@ import {useState} from "react";
 import {useNavigate} from "react-router-dom";
 import {AuthService} from "../../services/AuthService.service";
 import {Poll} from "../../context/poll.context";
+import FetchHelper from "../../helpers/fetch-helper";
 
 const PollForm = () => {
     const navigate = useNavigate();
@@ -13,32 +14,24 @@ const PollForm = () => {
     const [error, setError] = useState(false);
     const [message, setMessage] = useState("");
 
+    function createCallback(status: boolean, body: any) {
+        if(status) {
+            navigate('/detail/'+body.code);
+        } else {
+            setError(true);
+            setMessage(body);
+        }
+    }
+
     function handleCreate(e) {
         e.preventDefault();
-        const poll = new Poll(question, opened, status, AuthService.getUser().id);
-        fetch('http://localhost:8000/poll', {
-            method: 'POST',
-            mode: 'cors',
-            credentials: 'include',
-            headers: {
-                'Accept': 'application/json',
-                'Content-Type': 'application/json;charset=UTF-8'
-            },
-            body: JSON.stringify(poll)
-        })
-            .then(r => {
-                if(r.ok) return r.json();
-                return Promise.reject(r);
-            })
-            .then(json => {
-                navigate('/detail/'+json.id);
-            })
-            .catch(r => {
-                r.json().then((json : any) => {
-                    setError(true);
-                    setMessage(json.message);
-                });
-            });
+        try {
+            const poll = new Poll(question, opened, status, AuthService.getUser().id);
+            new FetchHelper().doCall('POST', 'poll', JSON.stringify(poll), createCallback, navigate);
+        } catch (e) {
+            setError(true);
+            setMessage('Unexpected error. Please, try it again...');
+        }
     }
 
     return (

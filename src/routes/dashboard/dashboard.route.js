@@ -1,32 +1,30 @@
 import styles from './dashboard.module.css';
 import {useEffect, useState} from "react";
 import Polls from "../../components/polls/polls.component";
-import {Link} from "react-router-dom";
+import {Link, useNavigate} from "react-router-dom";
 import {Button} from "primereact";
+import FetchHelper from "../../helpers/fetch-helper";
+import {AuthService} from "../../services/AuthService.service";
 
 const Dashboard = () => {
+    const navigate = useNavigate();
+    const isLoggedIn = AuthService.isLoggedIn();
     const [polls, setPolls] = useState(null);
+
+    function pollsCallback(status: boolean, body: any) {
+        if(status) {
+            setPolls(body);
+        } else {
+            setPolls(null);
+        }
+    }
+
     useEffect(() => {
-        fetch('http://localhost:8000/poll', {
-            method: 'GET',
-            mode: 'cors',
-            credentials: 'include',
-            headers: {
-                'Accept': 'application/json',
-                'Content-Type': 'application/json;charset=UTF-8'
-            }
-        })
-            .then(r => {
-                if(r.ok) return r.json();
-                return Promise.reject(r);
-            })
-            .then(json => {
-                setPolls(json);
-            })
-            .catch(r => {
-                setPolls(null);
-            });
-    },[setPolls]);
+        if(!isLoggedIn) {
+            navigate("/login")
+        }
+        new FetchHelper().doCall('GET', 'poll', null, pollsCallback, navigate);
+    }, [isLoggedIn, navigate]);
 
     return (
         <>

@@ -38,7 +38,7 @@ const Polls = ({ polls, dashboard } : any) => {
                         }
                         {dashboard &&
                             <p className='info'>
-                                <Link to={{pathname: `/detail/${poll.id}`, state: poll.id}}>
+                                <Link to={{pathname: `/detail/${poll.code}`, state: poll.code}}>
                                     <Button icon="pi pi-angle-right" iconPos="center"
                                             className="p-button-rounded"/>
                                 </Link>
@@ -46,7 +46,7 @@ const Polls = ({ polls, dashboard } : any) => {
                         }
                         {!dashboard &&
                             <p className='info-normal'>
-                                <Link to={{pathname: `/detail/${poll.id}`, state: poll.id}}>
+                                <Link to={{pathname: `/detail/${poll.code}`, state: poll.code}}>
                                     <Button icon="pi pi-angle-right" iconPos="center"
                                             className="p-button-rounded"/>
                                 </Link>
