@@ -5,6 +5,7 @@ import {Button} from "primereact";
 import {AuthService} from "../../services/AuthService.service";
 import {useNavigate} from "react-router-dom";
 import FetchHelper from "../../helpers/fetch-helper";
+import {Vote} from "../../context/vote.context";
 
 const Detail = () => {
     const { code } = useParams();
@@ -35,12 +36,40 @@ const Detail = () => {
         }
     }
 
+    function voteCallback(status: boolean, body: any) {
+        console.log(body);
+        if(status) {
+            let updatedPoll = JSON.parse(poll);
+            if(body.answer) {
+                updatedPoll.yes += 1;
+            } else {
+                updatedPoll.no += 1;
+            }
+            setPoll(JSON.stringify(updatedPoll));
+        } else {
+            setError(true);
+            setMessage(body);
+        }
+    }
+
     useEffect(() => {
         new FetchHelper().doCall('GET', 'public/poll/' + code, null, publicPollCallback, navigate);
         if(isLoggedIn) {
             new FetchHelper().doCall('GET', 'poll/' + code, null, privatePollCallback, navigate);
         }
     }, []);
+
+    function voteHandler(e, answer: boolean) {
+        e.preventDefault();
+        let vote;
+        if(isLoggedIn) {
+            vote = new Vote(answer, poll.id, AuthService.getUser().id, null);
+            new FetchHelper().doCall('POST', 'vote', JSON.stringify(vote), voteCallback, navigate);
+        } else {
+            vote = new Vote(answer, poll.id, null, null);
+            new FetchHelper().doCall('POST', 'public/vote', JSON.stringify(vote), voteCallback, navigate);
+        }
+    }
 
     return (
         <>
@@ -77,11 +106,11 @@ const Detail = () => {
                         {poll.opened && ((!poll.status && isLoggedIn) || poll.status) && canVote &&
                             <>
                                 <p>
-                                    <Button icon="pi pi-check" iconPos="center"
+                                    <Button onClick={(e) => {voteHandler(e, true)}} icon="pi pi-check" iconPos="center"
                                             className={["p-button-rounded", styles.buttonColor]}/>
                                 </p>
                                 <p>
-                                    <Button icon="pi pi-times" iconPos="center"
+                                    <Button onClick={(e) => {voteHandler(e, false)}} icon="pi pi-times" iconPos="center"
                                             className={["p-button-rounded", styles.buttonColor]}/>
                                 </p>
                             </>
