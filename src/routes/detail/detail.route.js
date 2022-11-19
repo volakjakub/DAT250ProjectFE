@@ -3,7 +3,7 @@ import { useParams } from 'react-router';
 import {useEffect, useState} from "react";
 import {Button} from "primereact";
 import {AuthService} from "../../services/AuthService.service";
-import {useNavigate} from "react-router-dom";
+import {Link, useNavigate} from "react-router-dom";
 import FetchHelper from "../../helpers/fetch-helper";
 import {Vote} from "../../context/vote.context";
 
@@ -95,8 +95,10 @@ const Detail = () => {
                     }
                     {isLoggedIn && poll.person_id === AuthService.getUser().id &&
                         <p>
-                            <Button icon="pi pi-wrench" iconPos="center"
-                                    className={["p-button-rounded", styles.buttonColor]}/>
+                            <Link to={{pathname: `/update/${poll.code}`}}>
+                                <Button icon="pi pi-wrench" iconPos="center"
+                                        className={["p-button-rounded", styles.buttonColor]}/>
+                            </Link>
                         </p>
                     }
                     <hr/>

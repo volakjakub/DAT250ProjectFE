@@ -11,7 +11,8 @@ import Register from "./routes/register/register.route";
 import Dashboard from "./routes/dashboard/dashboard.route";
 import Create from "./routes/create/create.route";
 import Detail from "./routes/detail/detail.route";
-import Logout from "./routes/logout/logout.route";                                //icons
+import Logout from "./routes/logout/logout.route";
+import Update from "./routes/update/update.route";                                //icons
 
 function App() {
   return (
@@ -50,6 +51,15 @@ function App() {
                       <>
                           <Header></Header>
                           <Detail></Detail>
+                      </>
+                  }
+              />
+              <Route
+                  path='/update/:code'
+                  element={
+                      <>
+                          <Header></Header>
+                          <Update></Update>
                       </>
                   }
               />

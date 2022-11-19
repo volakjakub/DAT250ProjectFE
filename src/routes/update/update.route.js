@@ -1,10 +1,12 @@
-import styles from './create.module.css';
+import styles from './update.module.css';
 import PollForm from "../../components/poll-form/poll-form.component";
 import {useNavigate} from "react-router-dom";
 import {AuthService} from "../../services/AuthService.service";
 import {useEffect} from "react";
+import {useParams} from "react-router";
 
-const Create = () => {
+const Update = () => {
+    const { code } = useParams();
     const navigate = useNavigate();
     const isLoggedIn = AuthService.isLoggedIn();
 
@@ -17,9 +19,9 @@ const Create = () => {
     return (
         <>
             <h1 className={styles.heading}>POLLINGATOR</h1>
-            <PollForm code={null}></PollForm>
+            <PollForm code={code}></PollForm>
         </>
     );
 };
 
-export default Create;
+export default Update;
