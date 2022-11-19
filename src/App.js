@@ -12,7 +12,8 @@ import Dashboard from "./routes/dashboard/dashboard.route";
 import Create from "./routes/create/create.route";
 import Detail from "./routes/detail/detail.route";
 import Logout from "./routes/logout/logout.route";
-import Update from "./routes/update/update.route";                                //icons
+import Update from "./routes/update/update.route";
+import Delete from "./routes/delete/delete.route";                                //icons
 
 function App() {
   return (
@@ -60,6 +61,15 @@ function App() {
                       <>
                           <Header></Header>
                           <Update></Update>
+                      </>
+                  }
+              />
+              <Route
+                  path='/delete/:code'
+                  element={
+                      <>
+                          <Header></Header>
+                          <Delete></Delete>
                       </>
                   }
               />

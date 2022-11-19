@@ -95,7 +95,7 @@ const Detail = () => {
                     }
                     {isLoggedIn && poll.person_id === AuthService.getUser().id &&
                         <p>
-                            <Link to={{pathname: `/update/${poll.code}`}}>
+                            <Link to={{pathname: `/update/${poll.code}`, state: poll.code}}>
                                 <Button icon="pi pi-wrench" iconPos="center"
                                         className={["p-button-rounded", styles.buttonColor]}/>
                             </Link>

@@ -1,0 +1,36 @@
+.heading {
+    margin-top: 5%;
+}
+
+.message {
+    margin-bottom: 35px;
+    font-size: 1.1rem;
+    font-weight: bold;
+    text-align: center;
+    width: 100%;
+}
+
+.errorColor {
+    color: #ef8c8c;
+}
+
+.successColor {
+    color: #928cef;
+}
+
+.bold {
+    font-weight: bold;
+}
+
+.sentence {
+    margin: 0 auto;
+    text-align: center;
+    width: 60%;
+}
+
+.buttonWrapper {
+    margin: 0 auto;
+    padding-top: 2.5%;
+    text-align: center;
+    width: 100%;
+}

@@ -15,6 +15,10 @@ export default class FetchHelper extends React.Component {
         })
         .then(r => {
             if(r.ok) {
+                if(r.url === "http://localhost:8000/logout") {
+                    callback(true, "");
+                    return;
+                }
                 r.json().then((json: any) => {
                     callback(true, json);
                 });

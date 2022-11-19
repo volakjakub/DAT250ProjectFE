@@ -37,6 +37,14 @@ const Polls = ({ polls, dashboard } : any) => {
                             </p>
                         }
                         {dashboard &&
+                            <p className='delete'>
+                                <Link to={{pathname: `/delete/${poll.code}`, state: poll.code}}>
+                                    <Button icon="pi pi-trash" iconPos="center"
+                                            className="p-button-rounded"/>
+                                </Link>
+                            </p>
+                        }
+                        {dashboard &&
                             <p className='info'>
                                 <Link to={{pathname: `/detail/${poll.code}`, state: poll.code}}>
                                     <Button icon="pi pi-angle-right" iconPos="center"
