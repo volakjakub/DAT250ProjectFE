@@ -6,6 +6,7 @@ import {AuthService} from "../../services/AuthService.service";
 import {Link, useNavigate} from "react-router-dom";
 import FetchHelper from "../../helpers/fetch-helper";
 import {Vote} from "../../context/vote.context";
+import MyChartComponent from "../../components/chart/my-chart.component";
 
 const Detail = () => {
     const { code } = useParams();
@@ -37,15 +38,18 @@ const Detail = () => {
     }
 
     function voteCallback(status: boolean, body: any) {
-        console.log(body);
         if(status) {
-            let updatedPoll = JSON.parse(poll);
             if(body.answer) {
-                updatedPoll.yes += 1;
+                const newYes = poll.yes + 1;
+                setPoll({
+                   ...poll, yes: newYes
+                });
             } else {
-                updatedPoll.no += 1;
+                const newNo = poll.no + 1;
+                setPoll({
+                    ...poll, no: newNo
+                });
             }
-            setPoll(JSON.stringify(updatedPoll));
         } else {
             setError(true);
             setMessage(body);
@@ -77,7 +81,7 @@ const Detail = () => {
             {error &&
                 <p className='message errorColor'>{message}</p>
             }
-            {!error &&
+            {!error && <>
                 <div className={styles.detailContainer}>
                     <p># {poll.code}</p>
                     <p><b>{poll.question}</b></p>
@@ -119,6 +123,8 @@ const Detail = () => {
                         }
                     </div>
                 </div>
+                <MyChartComponent yes={poll.yes} no={poll.no}></MyChartComponent>
+                </>
             }
         </>
     );
