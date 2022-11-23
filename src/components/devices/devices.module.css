@@ -1,0 +1,52 @@
+.devicesContainer {
+    margin: 0 5%;
+    float: left;
+    position:relative;
+    width: 40%;
+}
+
+.deviceRow {
+    margin: 0 auto;
+    padding: 1% 0;
+    border-bottom: 1px solid #d4d4d8;
+    height: 75px;
+    width: 100%;
+}
+
+.deviceRow p {
+    margin-top: 0;
+    margin-bottom: 0;
+    font-size: 16px;
+}
+
+.empty {
+    padding-top: 14px;
+    font-weight: bold;
+    text-align: center;
+    width: 100%;
+}
+
+.address {
+    padding-top: 14px;
+    float: left;
+    font-weight: bold;
+    text-align: left;
+    width: 30%;
+}
+
+.name {
+    padding-top:14px;
+    float: left;
+    text-align: left;
+    width: 40%;
+}
+
+.assign {
+    float: left;
+    text-align: right;
+    width: 30%;
+}
+
+.buttonColor span {
+    color: white;
+}
